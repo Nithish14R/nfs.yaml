@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-app
+  namespace: default
+spec:
+  restartPolicy: Always
+  volumes:
+  - name: html-files
+    hostPath:
+      path: /home/vagrant/code/motoShop-petProject/src/main/ui/public  # Path to your HTML files on the host machine
+  containers:
+  - name: node-app
+    image: node:alpine
+    command: ["/bin/sh", "-c", "cd /usr/src/app && npm install && npm start"]
+    ports:
+    - containerPort: 3000  # Port on which the Node.js server will listen
+    volumeMounts:
+    - name: html-files
+      mountPath: /usr/src/app/public  # Mount the HTML files directory to the Node.js container
+
